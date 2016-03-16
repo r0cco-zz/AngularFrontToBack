@@ -20,11 +20,16 @@ namespace AFBDemo.API
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
+                new CamelCasePropertyNamesContractResolver();
+
+            config.EnableCors();
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+                defaults: new {id = RouteParameter.Optional}
+                );
         }
     }
 }

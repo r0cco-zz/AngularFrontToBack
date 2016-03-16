@@ -4,34 +4,39 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
+using AFBDemo.API.Models;
+using APM.WebAPI.Models;
 
 namespace AFBDemo.API.Controllers
 {
-    public class ValuesController : ApiController
+    [EnableCors("http://localhost:61132", "*", "*")]
+    public class ProductsController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        // GET: api/Products
+        public IEnumerable<Product> Get()
         {
-            return new string[] { "value1", "value2" };
+            var productRepository = new ProductRepository();
+            return productRepository.Retrieve();
         }
 
-        // GET api/values/5
+        // GET: api/Products/5
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/values
+        // POST: api/Products
         public void Post([FromBody]string value)
         {
         }
 
-        // PUT api/values/5
+        // PUT: api/Products/5
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE api/values/5
+        // DELETE: api/Products/5
         public void Delete(int id)
         {
         }
