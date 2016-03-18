@@ -5,52 +5,105 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Description;
 using System.Web.OData;
 using AFBDemo.API.Models;
 using APM.WebAPI.Models;
 
 namespace AFBDemo.API.Controllers
 {
-    [EnableCors("http://localhost:61132", "*", "*")]
+    [EnableCors("http://localhost:61132","*","*")]
     public class ProductsController : ApiController
     {
         // GET: api/Products
         [EnableQuery()]
-        public IQueryable<Product> Get()
+        [ResponseType(typeof(Product))]
+        public IHttpActionResult Get()
         {
-            var productRepository = new ProductRepository();
-            return productRepository.Retrieve().AsQueryable();
+            try
+            {
+                var productRepository = new ProductRepository();
+                return Ok(productRepository.Retrieve().AsQueryable());
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
-        public Product Get(int id)
+        [ResponseType(typeof(Product))]
+        public IHttpActionResult Get(int id)
         {
-            Product product;
-            var productRepository = new ProductRepository();
+            try
+            {
+                Product product;
+                var productRepository = new ProductRepository();
 
-            if (id > 0)
-            {
-                var products = productRepository.Retrieve();
-                product = products.FirstOrDefault(p => p.ProductId == id);
+                if (id > 0)
+                {
+                    var products = productRepository.Retrieve();
+                    product = products.FirstOrDefault(p => p.ProductId == id);
+                    if (product == null)
+                    {
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    product = productRepository.Create();
+                }
+                return Ok(product);
             }
-            else
+            catch (Exception ex)
             {
-                product = productRepository.Create();
+                return InternalServerError(ex);
             }
-            return product;
         }
 
         // POST: api/Products
-        public void Post([FromBody]Product product)
+        public IHttpActionResult Post([FromBody]Product product)
         {
-            var productRepository = new ProductRepository();
-            productRepository.Save(product);
+            try
+            {
+                if (product == null)
+                {
+                    return BadRequest("Product cannot be null");
+                }
+                var productRepository = new ProductRepository();
+                var newProduct = productRepository.Save(product);
+                if (newProduct == null)
+                {
+                    return Conflict();
+                }
+                return Created<Product>(Request.RequestUri + newProduct.ProductId.ToString(), newProduct);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         // PUT: api/Products/5
-        public void Put(int id, [FromBody]Product product)
+        public IHttpActionResult Put(int id, [FromBody]Product product)
         {
-            var productRepository = new ProductRepository();
-            productRepository.Save(id, product);
+            try
+            {
+                if (product == null)
+                {
+                    return BadRequest("Product cannot be null");
+                }
+                var productRepository = new ProductRepository();
+                var updatedProduct = productRepository.Save(id, product);
+                if (updatedProduct == null)
+                {
+                    return NotFound();
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         // DELETE: api/Products/5
