@@ -11,7 +11,7 @@
         vm.product = {};
         vm.message = '';
 
-        productResource.get({ id: 1 },
+        productResource.get({ id: 3 },
             function (data) {
                 vm.product = data;
                 vm.originalProduct = angular.copy(data);
@@ -25,6 +25,19 @@
         }
 
         vm.submit = function () {
+            vm.message = "";
+            if (vm.product.productId) {
+                vm.product.$update({ id: vm.productId },
+                    function(data) {
+                        vm.message = "...Save complete";
+                    });
+            } else {
+                vm.product.$save(
+                    function(data) {
+                        vm.originalProduct = angular.copy(data);
+                        vm.message = "...Save complete";
+                    });
+            }
         };
 
         vm.cancel = function (editForm) {

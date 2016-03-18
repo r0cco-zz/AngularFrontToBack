@@ -1,7 +1,17 @@
 <div class="panel panel-primary"
      ng-controller="ProductListCtrl as vm">
+    <div class="container">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <input ng-bind="vm.searchCriteria" type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Button does nothing!</button>
+                </span>
+            </div>
+        </div>
+    </div>
     <div class="panel-heading"
-         style="font-size:large">
+         style="font-size: large">
         Product List
     </div>
 
@@ -9,20 +19,20 @@
         <table class="table">
 
             <thead>
-                <tr>
-                    <td>Product</td>
-                    <td>Code</td>
-                    <td>Available</td>
-                    <td>Price</td>
-                </tr>
+            <tr>
+                <td>Product</td>
+                <td>Code</td>
+                <td>Available</td>
+                <td>Price</td>
+            </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="product in vm.products">
-                    <td>{{ product.productName}}</td>
-                    <td>{{ product.productCode }}</td>
-                    <td>{{ product.releaseDate | date }}</td>
-                    <td>{{ product.price | currency }}</td>
-                </tr>
+            <tr ng-repeat="product in vm.products">
+                <td>{{ product.productName}}</td>
+                <td>{{ product.productCode }}</td>
+                <td>{{ product.releaseDate | date }}</td>
+                <td>{{ product.price | currency }}</td>
+            </tr>
             </tbody>
         </table>
     </div>

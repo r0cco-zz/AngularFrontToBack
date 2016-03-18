@@ -9,31 +9,33 @@
 </head>
 
 <body ng-app="productManagement">
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <div class="navbar-brand">Acme Product Management</div>
-            </div>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-brand">Acme Product Management</div>
         </div>
-    </nav>
-
-    <div class="container">
-        <div ng-include="'app/products/productListView.html'"></div>
     </div>
+</nav>
 
-    <!-- Library Scripts -->
-    <script src="scripts/angular.js"></script>
-    <script src="Scripts/angular-resource.min.js"></script>
+<div class="container">
+    <div ng-include="'app/products/productEditView.html'"></div>
+</div>
 
-    <!-- Application Script -->
-    <script src="app/app.js"></script>
+<!-- Library Scripts -->
+<script src="scripts/angular.js"></script>
+<script src="Scripts/angular-resource.min.js"></script>
 
-    <!-- Services -->
-    <script src="common/common.services.js"></script>
-    <script src="common/productResource.js"></script>
+<!-- Application Script -->
+<script src="app/app.js"></script>
 
-    <!-- Product Controllers -->
-    <script src="app/products/productListCtrl.js"></script>
+<!-- Services -->
+<script src="common/common.services.js"></script>
+<script src="common/productResource.js"></script>
+
+<!-- Product Controllers -->
+<script src="app/products/productListCtrl.js"></script>
+<script src="app/products/productEditCtrl.js"></script>
 </body>
 
 </html>
